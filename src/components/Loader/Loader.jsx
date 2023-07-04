@@ -1,14 +1,17 @@
-// import css from './loader.module.css';
+import css from './loader.module.css';
 import { RotatingLines } from 'react-loader-spinner';
 
 export const Loader = () => {
   return (
-    <RotatingLines
-      strokeColor="#fff"
-      strokeWidth="3"
-      animationDuration="1"
-      width="24"
-      visible={true}
-    />
+    <div className={css.load}>
+      {' '}
+      <RotatingLines
+        strokeColor="#3f51b5"
+        strokeWidth="5"
+        animationDuration="1"
+        width="96"
+        visible={true}
+      />
+    </div>
   );
 };
