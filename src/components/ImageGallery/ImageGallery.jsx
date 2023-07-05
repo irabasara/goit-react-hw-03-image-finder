@@ -47,12 +47,10 @@ export class ImageGallery extends Component {
   }
 
   handleLoadMoreClick = () => {
-    console.log('click');
     this.loadImages();
   };
 
   handleimageClick = largeImage => {
-    console.log('largeImage', largeImage);
     this.setState({ largeImage, isShowModal: true });
   };
 
@@ -69,6 +67,14 @@ export class ImageGallery extends Component {
 
     if (status === 'pending') {
       return <Loader />;
+    }
+
+if (status === 'rejected') {
+  return <Error message={error.message} />;
+}
+
+    if (gallery.length === 0) {
+      return <Error message={'Ooops, try again'} />;
     }
 
     if (status === 'resolved') {
@@ -92,8 +98,6 @@ export class ImageGallery extends Component {
       );
     }
 
-    if (status === 'rejected') {
-      return <Error message={error.message} />;
-    }
+    
   }
 }

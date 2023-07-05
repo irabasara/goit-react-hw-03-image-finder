@@ -4,10 +4,7 @@ import css from './modal.module.css';
 export class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleBackdropeClick);
+    // window.addEventListener('click', this.handleBackdropClick);
   }
 
   handleKeyDown = e => {
@@ -26,7 +23,7 @@ export class Modal extends Component {
     const { largeImageURL, tags } = this.props.largeImage;
 
     return (
-      <div className={css.overlay}>
+      <div className={css.overlay} onClick={this.handleBackdropeClick}>
         <div>
           <img className={css.modal} src={largeImageURL} alt={tags} />
         </div>
