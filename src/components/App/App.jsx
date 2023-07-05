@@ -17,10 +17,12 @@ export class App extends Component {
   };
 
   render() {
+    const { search } = this.state;
     return (
       <div className={css.app}>
         <Searchbar onSubmit={this.handlerFormSubmit} />
-        <ImageGallery search={this.state.search} />
+        <ImageGallery search={search} />
+        {/* {search && <Button />} */}
         {/* <Button></Button> */}
         {/* <Modal></Modal> */}
       </div>
