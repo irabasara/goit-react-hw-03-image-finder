@@ -1,7 +1,8 @@
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
-import css from './image-gallery.module.css';
 import { Component } from 'react';
 import { Modal } from 'components/Modal/Modal';
+import css from './image-gallery.module.css';
+
 
 export class ImageGallery extends Component {
   state = {

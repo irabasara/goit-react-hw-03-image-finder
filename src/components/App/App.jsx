@@ -11,44 +11,51 @@ import Gallery from '../../utils/pixabayAPI';
 export class App extends Component {
   state = {
     search: '',
-    page: 40,
+    page: 1,
     showBtn: false,
     gallery: [],
     isLoading: false,
     error: null,
-  };
-
-  handlerFormSubmit = search => {
-    this.setState({
-      search,
-    });
+    isEmpty: false,
   };
 
   componentDidUpdate(_, prevState) {
-    const { search } = this.state;
+    const { search, page } = this.state;
 
-    if (prevState.search !== search || prevState.page !== this.state.page) {
-      this.setState({ isLoading: true });
-      const { page, search } = this.state;
+    if (prevState.search !== search || prevState.page !== page) {
+      this.setState({ isLoading: true, showBtn: false });
 
       Gallery.getGallery(search, page)
         .then(gallery => {
+          if (gallery.hits.length === 0) {
+            this.setState({ isEmpty: true, isLoading: false, showBtn: false });
+          }
+
           this.setState(prevState => ({
             gallery: [...prevState.gallery, ...gallery.hits],
             showBtn: page < Math.ceil(gallery.totalHits / 12),
             isLoading: false,
           }));
         })
-        .catch(error => this.setState({ error }));
+        .catch(error => this.setState({ error, isLoading: false }))
+        .finally(this.setState({ isEmpty: false }));
     }
   }
+
+  handlerFormSubmit = search => {
+    this.setState({
+      search,
+      gallery: [],
+      page: 1,
+    });
+  };
 
   handleLoadMoreClick = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   render() {
-    const { search, showBtn, gallery, isLoading, error } = this.state;
+    const { search, showBtn, gallery, isLoading, error, isEmpty } = this.state;
 
     return (
       <div className={css.app}>
@@ -58,6 +65,7 @@ export class App extends Component {
         {isLoading && <Loader />}
         {showBtn && <Button onCLick={this.handleLoadMoreClick} />}
         {error && <Error message={'Ooops, try again'} />}
+        {isEmpty && <Error message={`Ooops, we can't find ${search}`} />}
       </div>
     );
   }
